@@ -8,3 +8,8 @@ __pycache__/
 .huggingface/
 .cache/
 .DS_Store
+.venv/
+.venv310/
+__pycache__/
+*.pyc
+.env
