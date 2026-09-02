@@ -1,0 +1,28 @@
+{
+  "title": "Numbers 1 to 10",
+  "grade": "Class 1",
+  "subject": "Mathematics",
+  "duration": "30 minutes",
+  "objective": "Students count objects from 1 to 10 with Hindi instruction and Santali reinforcement.",
+  "teacherInstructionHindi": "इन बीजों को गिनो और संख्या बोलो।",
+  "teacherInstructionSantali": "ᱱᱚᱶᱟ ᱵᱤᱡ ᱠᱚ ᱞᱮᱠᱷᱟᱭ ᱢᱮ ᱟᱨ ᱞᱮᱠᱷᱟ ᱢᱮᱱ ᱢᱮ᱾",
+  "activity": "Give each group ten seeds. Students count aloud, arrange seeds in number groups, then match Hindi and Santali number cards.",
+  "vocabulary": [
+    {"hindi": "एक", "santali": "ᱢᱤᱫ", "english": "one", "visual": "●"},
+    {"hindi": "दो", "santali": "ᱵᱟᱨ", "english": "two", "visual": "●●"},
+    {"hindi": "तीन", "santali": "ᱯᱮ", "english": "three", "visual": "●●●"},
+    {"hindi": "चार", "santali": "ᱯᱩᱱ", "english": "four", "visual": "●●●●"},
+    {"hindi": "पाँच", "santali": "ᱢᱚᱬᱮ", "english": "five", "visual": "●●●●●"}
+  ],
+  "steps": [
+    "Place seeds or stones on the desk and count together.",
+    "Ask one child to count in Hindi and another to repeat in Santali.",
+    "Use clap-counting to practise 1 to 10.",
+    "Close with a quick worksheet where students draw counted objects."
+  ],
+  "exampleQuestions": [
+    {"hindi": "तीन के बाद कौन सी संख्या आती है?", "santali": "ᱯᱮ ᱛᱟᱭᱚᱢ ᱚᱠᱟ ᱞᱮᱠᱷᱟ ᱦᱤᱡᱩᱜ-ᱟ?", "answer": "चार / ᱯᱩᱱ"},
+    {"hindi": "दो बिंदु बनाओ।", "santali": "ᱵᱟᱨ ᱴᱤᱯ ᱵᱮᱱᱟᱣ ᱢᱮ᱾", "answer": "●●"}
+  ],
+  "teacherPrompt": "इन बीजों को गिनो और संख्या बोलो।"
+}

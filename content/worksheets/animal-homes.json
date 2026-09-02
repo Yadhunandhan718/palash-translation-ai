@@ -1,0 +1,10 @@
+{
+  "title": "Animal Home Matching",
+  "grade": "Class 3",
+  "instructions": "Match the animal with where it lives. Teacher can translate each instruction before students answer.",
+  "questions": [
+    {"prompt": "मछली कहाँ रहती है?", "options": ["पानी", "पेड़", "घर"], "answer": "पानी"},
+    {"prompt": "पक्षी कहाँ बैठता है?", "options": ["पेड़", "तालाब", "किताब"], "answer": "पेड़"},
+    {"prompt": "गाय क्या खाती है?", "options": ["घास", "पत्थर", "कागज"], "answer": "घास"}
+  ]
+}

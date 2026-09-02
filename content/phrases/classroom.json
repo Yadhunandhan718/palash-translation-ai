@@ -1,0 +1,9 @@
+{
+  "title": "Useful classroom phrases",
+  "phrases": [
+    {"hindi": "सब लोग ध्यान से सुनो।", "santali": "ᱡᱚᱛᱚ ᱦᱚᱲ ᱫᱷᱮᱭᱟᱱ ᱥᱟᱶ ᱟᱧᱡᱚᱢ ᱢᱮ᱾", "use": "Getting attention"},
+    {"hindi": "अपनी किताब खोलो।", "santali": "ᱟᱢᱟᱜ ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡ ᱢᱮ᱾", "use": "Starting reading"},
+    {"hindi": "उत्तर बोलो।", "santali": "ᱛᱮᱞᱟ ᱢᱮ᱾", "use": "Prompting response"},
+    {"hindi": "बहुत अच्छा।", "santali": "ᱟᱹᱰᱤ ᱵᱮᱥ᱾", "use": "Encouragement"}
+  ]
+}
