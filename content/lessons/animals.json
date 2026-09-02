@@ -1,0 +1,20 @@
+{
+  "title": "Animals Around Us",
+  "grade": "Class 3",
+  "subject": "Environmental Studies",
+  "duration": "35 minutes",
+  "objective": "Students identify common animals and describe where they live using Hindi and Santali support.",
+  "vocabulary": [
+    {"hindi": "गाय", "santali": "ᱜᱟᱭ", "english": "cow"},
+    {"hindi": "बकरी", "santali": "ᱵᱟᱠᱽᱨᱤ", "english": "goat"},
+    {"hindi": "मछली", "santali": "ᱦᱟᱠᱩ", "english": "fish"},
+    {"hindi": "पक्षी", "santali": "ᱪᱮᱬᱮ", "english": "bird"}
+  ],
+  "steps": [
+    "Show the picture cards and ask students to name animals in their mother tongue.",
+    "Read each Hindi word aloud, then show the Santali support word.",
+    "Ask students to match animals with home: water, tree, field, house.",
+    "Use the translator for teacher questions and repeat answers as a class."
+  ],
+  "teacherPrompt": "आज हम अपने आसपास दिखने वाले जानवरों के बारे में सीखेंगे।"
+}

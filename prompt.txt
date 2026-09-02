@@ -1,0 +1,600 @@
+You are the lead developer for this project. You are working directly inside the existing Git repository for our hackathon project, **PALASH AI**.
+
+## PROJECT GOAL
+
+We are building a web-based prototype for:
+
+**“AI-Powered Vernacular Pedagogy and Real-Time Translation Tool for Mother Tongue-Based Primary Education.”**
+
+The prototype focuses ONLY on **Hindi ↔ Santali** and is intended for a hackathon demonstration.
+
+The system should help Hindi-medium teachers teach primary-school lessons in Santali.
+
+Do NOT over-engineer this. We need a working, polished prototype, not a production system.
+
+---
+
+# TECH STACK
+
+Use:
+
+### Frontend
+
+* React
+* Vite
+* JavaScript or TypeScript
+* CSS
+* lucide-react for icons if useful
+
+### Backend
+
+* Python
+* FastAPI
+* Uvicorn
+
+### AI
+
+* Hindi → Santali translation:
+  `ai4bharat/indictrans2-indic-indic-dist-320M`
+
+* Speech recognition:
+  AI4Bharat IndicConformer
+
+* Santali text-to-speech:
+  AI4Bharat Indic Parler-TTS
+
+Do NOT use paid APIs.
+
+---
+
+# IMPORTANT WORKING RULES
+
+1. First inspect the existing repository.
+2. Do not delete or overwrite existing work without checking it first.
+3. Reuse useful existing files/code if present.
+4. If the repository is empty, create the project structure yourself.
+5. Actually create and modify files rather than merely telling me what commands I should run.
+6. Install required dependencies where possible.
+7. Test everything you implement.
+8. If an AI model cannot be installed/downloaded automatically because of authentication, licensing, size, or network restrictions, stop at that exact point and clearly tell me what is required. Do not fake the AI output.
+9. Keep the implementation simple enough for a hackathon.
+10. Do not add unnecessary databases, microservices, Docker, Kubernetes, authentication systems, cloud infrastructure, etc.
+11. Keep the code understandable for students.
+12. Add comments only where they genuinely help.
+13. Do not commit virtual environments or huge model files to Git.
+14. Never put secrets/API keys/passwords in the repository.
+
+---
+
+# TARGET PROJECT STRUCTURE
+
+Create/maintain approximately:
+
+PALASH-AI/
+│
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   │
+│   ├── translation/
+│   │   └── translate.py
+│   │
+│   ├── asr/
+│   │   └── speech_to_text.py
+│   │
+│   └── tts/
+│       └── text_to_speech.py
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── ...
+│   └── package.json
+│
+├── content/
+│   ├── lessons/
+│   ├── flashcards/
+│   └── worksheets/
+│
+├── docs/
+│
+├── .gitignore
+├── README.md
+└── ...
+
+````
+
+Adapt this structure if the existing repository already has a better organization.
+
+---
+
+# STEP 1 — REPOSITORY INSPECTION
+
+Start by inspecting:
+
+- current files
+- git status
+- current branches
+- existing README
+- existing frontend/backend code
+- package files
+- Python environment
+- installed dependencies
+
+Do not assume the repository is empty.
+
+Report briefly what you found, then begin implementation.
+
+---
+
+# STEP 2 — BACKEND
+
+Create a FastAPI backend.
+
+The backend should eventually provide:
+
+GET `/`
+
+GET `/health`
+
+POST `/translate`
+
+POST `/voice-translate`
+
+POST `/tts`
+
+GET `/lessons`
+
+GET `/flashcards`
+
+POST `/worksheet`
+
+Start with `/`, `/health`, and `/translate`.
+
+Make the API structure clean enough that ASR and TTS can be added without rewriting everything.
+
+Enable CORS so the React frontend can communicate with FastAPI during local development.
+
+---
+
+# STEP 3 — HINDI → SANTALI TRANSLATION
+
+Implement the first real AI feature.
+
+Use:
+
+`ai4bharat/indictrans2-indic-indic-dist-320M`
+
+Language codes:
+
+Hindi:
+`hin_Deva`
+
+Santali:
+`sat_Olck`
+
+The first milestone is:
+
+Hindi text
+↓
+IndicTrans2
+↓
+Santali text
+
+Create:
+
+`backend/translation/translate.py`
+
+with a clean function such as:
+
+`translate_hindi_to_santali(text)`
+
+Then expose it through:
+
+POST `/translate`
+
+Example request:
+
+{
+  "text": "बच्चों, आज हम 1 से 10 तक गिनती सीखेंगे।"
+}
+
+Return something like:
+
+{
+  "source_language": "Hindi",
+  "target_language": "Santali",
+  "source_text": "...",
+  "translation": "..."
+}
+
+Do NOT hardcode fake translations once the actual model is available.
+
+If model loading is too resource-intensive, implement lazy loading so the server does not unnecessarily load it multiple times.
+
+---
+
+# STEP 4 — FRONTEND
+
+Build a polished React web application.
+
+The visual design should feel like a modern educational product rather than a generic developer demo.
+
+Main navigation:
+
+- Home
+- Lessons
+- Voice Translator
+- Worksheets
+- Flashcards
+
+Use a clean responsive layout that works on laptops and tablets.
+
+---
+
+# HOME PAGE
+
+Create a dashboard containing:
+
+PALASH AI
+
+“Mother Tongue Education Assistant”
+
+Short explanation of the project.
+
+Cards/buttons for:
+
+📚 Lessons
+
+🎙 Voice Translator
+
+📝 Worksheet Generator
+
+🃏 Flashcards
+
+Also show:
+
+- Current language: Hindi ↔ Santali
+- Prototype status
+- Number of available lessons
+- Number of flashcards
+
+---
+
+# LESSONS
+
+Create at least one complete sample lesson:
+
+**Class 1 — Numbers 1–10**
+
+Include:
+
+- Learning objective
+- Teacher instruction in Hindi
+- Santali translation
+- Audio button
+- Simple classroom activity
+- Example questions
+- Visual examples
+
+Store lesson content as JSON under:
+
+`content/lessons/`
+
+Do not hardcode all lesson data directly into React components.
+
+---
+
+# VOICE TRANSLATOR
+
+Create a dedicated page:
+
+Hindi → Santali Voice Translator
+
+UI should include:
+
+- microphone button
+- recording state
+- Hindi transcription
+- Santali translation
+- audio playback
+- latency measurement
+
+Desired pipeline:
+
+Browser microphone
+↓
+FastAPI
+↓
+IndicConformer
+↓
+Hindi text
+↓
+IndicTrans2
+↓
+Santali text
+↓
+Indic Parler-TTS
+↓
+Santali audio
+↓
+Browser playback
+
+Create the API structure even if ASR/TTS implementation needs to be completed separately.
+
+Do NOT pretend the voice pipeline is working if it is not.
+
+---
+
+# SPEECH RECOGNITION
+
+Use AI4Bharat IndicConformer.
+
+For Santali, the relevant model is:
+
+`ai4bharat/indicconformer_stt_sat_hybrid_ctc_rnnt_large`
+
+However, our main demo direction is Hindi speech → Santali.
+
+Implement the architecture so Hindi ASR can be used for Hindi speech.
+
+Create:
+
+`backend/asr/speech_to_text.py`
+
+Keep model loading separate from API logic.
+
+---
+
+# TEXT TO SPEECH
+
+Use AI4Bharat Indic Parler-TTS for Santali.
+
+Create:
+
+`backend/tts/text_to_speech.py`
+
+Function:
+
+`text_to_speech(text)`
+
+The API should return audio that the browser can play.
+
+If generated audio files are created temporarily, handle them cleanly and do not commit them to Git.
+
+---
+
+# WORKSHEET GENERATOR
+
+Do NOT use an LLM for this.
+
+Use templates/rules.
+
+The user should be able to choose:
+
+- Class
+- Subject/topic
+- Number of questions
+- Difficulty
+
+Initially support:
+
+Class 1
+Numbers 1–10
+
+Generate a bilingual worksheet containing:
+
+- Hindi instructions
+- Santali instructions
+- simple counting questions
+- matching questions
+- fill-in-the-blank questions
+- visual counting exercises
+
+Create a printable worksheet UI.
+
+If practical, provide a “Download / Print” option using browser printing rather than introducing a complicated PDF service.
+
+---
+
+# FLASHCARDS
+
+Create 10–20 flashcards for Numbers 1–10.
+
+Each card should contain:
+
+- number
+- simple visual
+- Hindi
+- Santali
+- audio/play button where available
+
+Store flashcard data under:
+
+`content/flashcards/`
+
+Use simple local SVG/emoji/CSS visuals rather than external image APIs.
+
+---
+
+# OFFLINE-READY CONTENT
+
+The original problem requires low-connectivity/offline usage.
+
+For this web prototype, do NOT attempt a complicated fully offline AI system.
+
+Instead:
+
+- bundle lesson data locally
+- bundle flashcard data locally
+- make worksheet templates local
+- cache/static content where practical
+- keep AI inference on the backend
+
+Clearly document this distinction in the README.
+
+Do NOT falsely claim that the entire AI system works offline.
+
+---
+
+# LATENCY
+
+The problem statement requires voice translation within approximately 3 seconds.
+
+Implement a latency timer around the voice translation pipeline.
+
+Display something such as:
+
+`Translation completed in 2.4s`
+
+But ONLY show actual measured latency.
+
+Do not fabricate a value.
+
+If the prototype cannot consistently reach 3 seconds, document the measured performance honestly.
+
+---
+
+# CONTENT
+
+Create enough sample educational content to make the demo convincing.
+
+At minimum:
+
+- 1 complete Class 1 Numbers lesson
+- 10–20 flashcards
+- several worksheet question templates
+- around 10–20 classroom phrases
+
+Use human-readable JSON.
+
+Keep translations clearly marked so that they can later be reviewed by a Santali speaker/teacher.
+
+---
+
+# ERROR HANDLING
+
+The frontend should gracefully handle:
+
+- backend unavailable
+- model still loading
+- microphone permission denied
+- empty input
+- invalid audio
+- translation failure
+- TTS failure
+
+Show friendly messages rather than raw stack traces.
+
+---
+
+# README
+
+Write a useful README explaining:
+
+1. Project purpose
+2. Architecture
+3. Tech stack
+4. Repository structure
+5. Installation
+6. Running backend
+7. Running frontend
+8. AI models used
+9. Hindi/Santali language codes
+10. How to test translation
+11. How to test voice translation
+12. Limitations
+13. Offline limitations
+14. Team development instructions
+
+Include exact commands.
+
+---
+
+# GIT
+
+Make sure `.gitignore` excludes:
+
+- `.venv`
+- `__pycache__`
+- `node_modules`
+- generated audio
+- model weights
+- `.env`
+- secrets
+
+Do NOT commit huge model files.
+
+Do NOT commit the virtual environment.
+
+---
+
+# DEVELOPMENT STRATEGY
+
+Work in this order:
+
+1. Inspect repository
+2. Backend skeleton
+3. Frontend skeleton
+4. Connect frontend ↔ backend
+5. Implement real Hindi → Santali translation
+6. Build Lessons
+7. Build Flashcards
+8. Build Worksheet Generator
+9. Implement ASR
+10. Implement TTS
+11. Connect complete voice pipeline
+12. Add latency measurement
+13. Polish UI
+14. Test everything
+15. Update README
+
+Do not spend excessive time on features that aren't necessary for the prototype.
+
+---
+
+# VERY IMPORTANT
+
+If something fails:
+
+1. Diagnose the actual error.
+2. Try a reasonable fix.
+3. Test again.
+4. Only then report the problem.
+
+Do not simply say “you need to fix this.”
+
+Whenever possible, fix it yourself in the repository.
+
+At the end, give me a concise report containing:
+
+- what you implemented
+- files created/modified
+- dependencies installed
+- what works
+- what still needs work
+- exact commands to run the application
+- any blockers requiring manual action
+
+Begin now by inspecting the repository and then implement the project step-by-step.
+
+### One thing I'd do differently from the prompt above
+
+**Don't let the agent run for hours trying to get every AI model working at once.**
+
+The most important milestone is:
+
+```text
+React
+   ↓
+FastAPI
+   ↓
+IndicTrans2
+   ↓
+Hindi → Santali
+````
+
+Once the agent gets that working, **stop it and test it yourself**. Then give it a second prompt specifically for ASR/TTS.
+
+That way, if something breaks, you'll know exactly which component caused it instead of having a giant half-working project.

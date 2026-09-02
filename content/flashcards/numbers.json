@@ -1,0 +1,15 @@
+{
+  "set": "Numbers 1-10",
+  "cards": [
+    {"number": 1, "visual": "●", "hindi": "एक", "santali": "ᱢᱤᱫ", "english": "one"},
+    {"number": 2, "visual": "●●", "hindi": "दो", "santali": "ᱵᱟᱨ", "english": "two"},
+    {"number": 3, "visual": "●●●", "hindi": "तीन", "santali": "ᱯᱮ", "english": "three"},
+    {"number": 4, "visual": "●●●●", "hindi": "चार", "santali": "ᱯᱩᱱ", "english": "four"},
+    {"number": 5, "visual": "●●●●●", "hindi": "पाँच", "santali": "ᱢᱚᱬᱮ", "english": "five"},
+    {"number": 6, "visual": "●●●●●●", "hindi": "छह", "santali": "ᱛᱩᱨᱩᱭ", "english": "six"},
+    {"number": 7, "visual": "●●●●●●●", "hindi": "सात", "santali": "ᱮᱭᱟᱭ", "english": "seven"},
+    {"number": 8, "visual": "●●●●●●●●", "hindi": "आठ", "santali": "ᱤᱨᱟᱹᱞ", "english": "eight"},
+    {"number": 9, "visual": "●●●●●●●●●", "hindi": "नौ", "santali": "ᱟᱨᱮ", "english": "nine"},
+    {"number": 10, "visual": "●●●●●●●●●●", "hindi": "दस", "santali": "ᱜᱮᱞ", "english": "ten"}
+  ]
+}

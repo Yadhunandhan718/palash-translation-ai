@@ -1,0 +1,10 @@
+{
+  "set": "Classroom words",
+  "cards": [
+    {"hindi": "किताब", "santali": "ᱯᱩᱛᱷᱤ", "english": "book"},
+    {"hindi": "पानी", "santali": "ᱫᱟᱜ", "english": "water"},
+    {"hindi": "स्कूल", "santali": "ᱤᱥᱠᱩᱞ", "english": "school"},
+    {"hindi": "शिक्षक", "santali": "ᱥᱤᱠᱷᱭᱚᱠ", "english": "teacher"},
+    {"hindi": "दोहराओ", "santali": "ᱫᱚᱦᱲᱟᱣ", "english": "repeat"}
+  ]
+}
