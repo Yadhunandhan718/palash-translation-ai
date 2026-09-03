@@ -1,600 +1,180 @@
-You are the lead developer for this project. You are working directly inside the existing Git repository for our hackathon project, **PALASH AI**.
+# Frontend design & UX overhaul — prompt for coding agent
 
-## PROJECT GOAL
-
-We are building a web-based prototype for:
-
-**“AI-Powered Vernacular Pedagogy and Real-Time Translation Tool for Mother Tongue-Based Primary Education.”**
-
-The prototype focuses ONLY on **Hindi ↔ Santali** and is intended for a hackathon demonstration.
-
-The system should help Hindi-medium teachers teach primary-school lessons in Santali.
-
-Do NOT over-engineer this. We need a working, polished prototype, not a production system.
+Paste everything below this line into your coding agent (Claude Code, Cursor, etc.) as one instruction.
 
 ---
 
-# TECH STACK
-
-Use:
-
-### Frontend
-
-* React
-* Vite
-* JavaScript or TypeScript
-* CSS
-* lucide-react for icons if useful
-
-### Backend
-
-* Python
-* FastAPI
-* Uvicorn
-
-### AI
-
-* Hindi → Santali translation:
-  `ai4bharat/indictrans2-indic-indic-dist-320M`
-
-* Speech recognition:
-  AI4Bharat IndicConformer
-
-* Santali text-to-speech:
-  AI4Bharat Indic Parler-TTS
-
-Do NOT use paid APIs.
-
----
-
-# IMPORTANT WORKING RULES
-
-1. First inspect the existing repository.
-2. Do not delete or overwrite existing work without checking it first.
-3. Reuse useful existing files/code if present.
-4. If the repository is empty, create the project structure yourself.
-5. Actually create and modify files rather than merely telling me what commands I should run.
-6. Install required dependencies where possible.
-7. Test everything you implement.
-8. If an AI model cannot be installed/downloaded automatically because of authentication, licensing, size, or network restrictions, stop at that exact point and clearly tell me what is required. Do not fake the AI output.
-9. Keep the implementation simple enough for a hackathon.
-10. Do not add unnecessary databases, microservices, Docker, Kubernetes, authentication systems, cloud infrastructure, etc.
-11. Keep the code understandable for students.
-12. Add comments only where they genuinely help.
-13. Do not commit virtual environments or huge model files to Git.
-14. Never put secrets/API keys/passwords in the repository.
-
----
-
-# TARGET PROJECT STRUCTURE
-
-Create/maintain approximately:
-
-PALASH-AI/
-│
-├── backend/
-│   ├── main.py
-│   ├── requirements.txt
-│   │
-│   ├── translation/
-│   │   └── translate.py
-│   │
-│   ├── asr/
-│   │   └── speech_to_text.py
-│   │
-│   └── tts/
-│       └── text_to_speech.py
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── ...
-│   └── package.json
-│
-├── content/
-│   ├── lessons/
-│   ├── flashcards/
-│   └── worksheets/
-│
-├── docs/
-│
-├── .gitignore
-├── README.md
-└── ...
-
-````
-
-Adapt this structure if the existing repository already has a better organization.
-
----
-
-# STEP 1 — REPOSITORY INSPECTION
-
-Start by inspecting:
-
-- current files
-- git status
-- current branches
-- existing README
-- existing frontend/backend code
-- package files
-- Python environment
-- installed dependencies
-
-Do not assume the repository is empty.
-
-Report briefly what you found, then begin implementation.
-
----
-
-# STEP 2 — BACKEND
-
-Create a FastAPI backend.
-
-The backend should eventually provide:
-
-GET `/`
-
-GET `/health`
-
-POST `/translate`
-
-POST `/voice-translate`
-
-POST `/tts`
-
-GET `/lessons`
-
-GET `/flashcards`
-
-POST `/worksheet`
-
-Start with `/`, `/health`, and `/translate`.
-
-Make the API structure clean enough that ASR and TTS can be added without rewriting everything.
-
-Enable CORS so the React frontend can communicate with FastAPI during local development.
-
----
-
-# STEP 3 — HINDI → SANTALI TRANSLATION
-
-Implement the first real AI feature.
-
-Use:
-
-`ai4bharat/indictrans2-indic-indic-dist-320M`
-
-Language codes:
-
-Hindi:
-`hin_Deva`
-
-Santali:
-`sat_Olck`
-
-The first milestone is:
-
-Hindi text
-↓
-IndicTrans2
-↓
-Santali text
-
-Create:
-
-`backend/translation/translate.py`
-
-with a clean function such as:
-
-`translate_hindi_to_santali(text)`
-
-Then expose it through:
-
-POST `/translate`
-
-Example request:
-
-{
-  "text": "बच्चों, आज हम 1 से 10 तक गिनती सीखेंगे।"
-}
-
-Return something like:
-
-{
-  "source_language": "Hindi",
-  "target_language": "Santali",
-  "source_text": "...",
-  "translation": "..."
-}
-
-Do NOT hardcode fake translations once the actual model is available.
-
-If model loading is too resource-intensive, implement lazy loading so the server does not unnecessarily load it multiple times.
-
----
-
-# STEP 4 — FRONTEND
-
-Build a polished React web application.
-
-The visual design should feel like a modern educational product rather than a generic developer demo.
-
-Main navigation:
-
-- Home
-- Lessons
-- Voice Translator
-- Worksheets
-- Flashcards
-
-Use a clean responsive layout that works on laptops and tablets.
-
----
-
-# HOME PAGE
-
-Create a dashboard containing:
-
-PALASH AI
-
-“Mother Tongue Education Assistant”
-
-Short explanation of the project.
-
-Cards/buttons for:
-
-📚 Lessons
-
-🎙 Voice Translator
-
-📝 Worksheet Generator
-
-🃏 Flashcards
-
-Also show:
-
-- Current language: Hindi ↔ Santali
-- Prototype status
-- Number of available lessons
-- Number of flashcards
-
----
-
-# LESSONS
-
-Create at least one complete sample lesson:
-
-**Class 1 — Numbers 1–10**
-
-Include:
-
-- Learning objective
-- Teacher instruction in Hindi
-- Santali translation
-- Audio button
-- Simple classroom activity
-- Example questions
-- Visual examples
-
-Store lesson content as JSON under:
-
-`content/lessons/`
-
-Do not hardcode all lesson data directly into React components.
-
----
-
-# VOICE TRANSLATOR
-
-Create a dedicated page:
-
-Hindi → Santali Voice Translator
-
-UI should include:
-
-- microphone button
-- recording state
-- Hindi transcription
-- Santali translation
-- audio playback
-- latency measurement
-
-Desired pipeline:
-
-Browser microphone
-↓
-FastAPI
-↓
-IndicConformer
-↓
-Hindi text
-↓
-IndicTrans2
-↓
-Santali text
-↓
-Indic Parler-TTS
-↓
-Santali audio
-↓
-Browser playback
-
-Create the API structure even if ASR/TTS implementation needs to be completed separately.
-
-Do NOT pretend the voice pipeline is working if it is not.
-
----
-
-# SPEECH RECOGNITION
-
-Use AI4Bharat IndicConformer.
-
-For Santali, the relevant model is:
-
-`ai4bharat/indicconformer_stt_sat_hybrid_ctc_rnnt_large`
-
-However, our main demo direction is Hindi speech → Santali.
-
-Implement the architecture so Hindi ASR can be used for Hindi speech.
-
-Create:
-
-`backend/asr/speech_to_text.py`
-
-Keep model loading separate from API logic.
-
----
-
-# TEXT TO SPEECH
-
-Use AI4Bharat Indic Parler-TTS for Santali.
-
-Create:
-
-`backend/tts/text_to_speech.py`
-
-Function:
-
-`text_to_speech(text)`
-
-The API should return audio that the browser can play.
-
-If generated audio files are created temporarily, handle them cleanly and do not commit them to Git.
-
----
-
-# WORKSHEET GENERATOR
-
-Do NOT use an LLM for this.
-
-Use templates/rules.
-
-The user should be able to choose:
-
-- Class
-- Subject/topic
-- Number of questions
-- Difficulty
-
-Initially support:
-
-Class 1
-Numbers 1–10
-
-Generate a bilingual worksheet containing:
-
-- Hindi instructions
-- Santali instructions
-- simple counting questions
-- matching questions
-- fill-in-the-blank questions
-- visual counting exercises
-
-Create a printable worksheet UI.
-
-If practical, provide a “Download / Print” option using browser printing rather than introducing a complicated PDF service.
-
----
-
-# FLASHCARDS
-
-Create 10–20 flashcards for Numbers 1–10.
-
-Each card should contain:
-
-- number
-- simple visual
-- Hindi
-- Santali
-- audio/play button where available
-
-Store flashcard data under:
-
-`content/flashcards/`
-
-Use simple local SVG/emoji/CSS visuals rather than external image APIs.
-
----
-
-# OFFLINE-READY CONTENT
-
-The original problem requires low-connectivity/offline usage.
-
-For this web prototype, do NOT attempt a complicated fully offline AI system.
-
-Instead:
-
-- bundle lesson data locally
-- bundle flashcard data locally
-- make worksheet templates local
-- cache/static content where practical
-- keep AI inference on the backend
-
-Clearly document this distinction in the README.
-
-Do NOT falsely claim that the entire AI system works offline.
-
----
-
-# LATENCY
-
-The problem statement requires voice translation within approximately 3 seconds.
-
-Implement a latency timer around the voice translation pipeline.
-
-Display something such as:
-
-`Translation completed in 2.4s`
-
-But ONLY show actual measured latency.
-
-Do not fabricate a value.
-
-If the prototype cannot consistently reach 3 seconds, document the measured performance honestly.
-
----
-
-# CONTENT
-
-Create enough sample educational content to make the demo convincing.
-
-At minimum:
-
-- 1 complete Class 1 Numbers lesson
-- 10–20 flashcards
-- several worksheet question templates
-- around 10–20 classroom phrases
-
-Use human-readable JSON.
-
-Keep translations clearly marked so that they can later be reviewed by a Santali speaker/teacher.
-
----
-
-# ERROR HANDLING
-
-The frontend should gracefully handle:
-
-- backend unavailable
-- model still loading
-- microphone permission denied
-- empty input
-- invalid audio
-- translation failure
-- TTS failure
-
-Show friendly messages rather than raw stack traces.
-
----
-
-# README
-
-Write a useful README explaining:
-
-1. Project purpose
-2. Architecture
-3. Tech stack
-4. Repository structure
-5. Installation
-6. Running backend
-7. Running frontend
-8. AI models used
-9. Hindi/Santali language codes
-10. How to test translation
-11. How to test voice translation
-12. Limitations
-13. Offline limitations
-14. Team development instructions
-
-Include exact commands.
-
----
-
-# GIT
-
-Make sure `.gitignore` excludes:
-
-- `.venv`
-- `__pycache__`
-- `node_modules`
-- generated audio
-- model weights
-- `.env`
-- secrets
-
-Do NOT commit huge model files.
-
-Do NOT commit the virtual environment.
-
----
-
-# DEVELOPMENT STRATEGY
-
-Work in this order:
-
-1. Inspect repository
-2. Backend skeleton
-3. Frontend skeleton
-4. Connect frontend ↔ backend
-5. Implement real Hindi → Santali translation
-6. Build Lessons
-7. Build Flashcards
-8. Build Worksheet Generator
-9. Implement ASR
-10. Implement TTS
-11. Connect complete voice pipeline
-12. Add latency measurement
-13. Polish UI
-14. Test everything
-15. Update README
-
-Do not spend excessive time on features that aren't necessary for the prototype.
-
----
-
-# VERY IMPORTANT
-
-If something fails:
-
-1. Diagnose the actual error.
-2. Try a reasonable fix.
-3. Test again.
-4. Only then report the problem.
-
-Do not simply say “you need to fix this.”
-
-Whenever possible, fix it yourself in the repository.
-
-At the end, give me a concise report containing:
-
-- what you implemented
-- files created/modified
-- dependencies installed
-- what works
-- what still needs work
-- exact commands to run the application
-- any blockers requiring manual action
-
-Begin now by inspecting the repository and then implement the project step-by-step.
-
-### One thing I'd do differently from the prompt above
-
-**Don't let the agent run for hours trying to get every AI model working at once.**
-
-The most important milestone is:
-
-```text
-React
-   ↓
-FastAPI
-   ↓
-IndicTrans2
-   ↓
-Hindi → Santali
-````
-
-Once the agent gets that working, **stop it and test it yourself**. Then give it a second prompt specifically for ASR/TTS.
-
-That way, if something breaks, you'll know exactly which component caused it instead of having a giant half-working project.
+## Context
+
+You are working on **PALASH AI**, a hackathon prototype for an AI-powered vernacular
+pedagogy and real-time translation tool for mother-tongue-based primary education
+(Hindi ↔ Santali, for the PALASH multilingual education programme in Jharkhand).
+
+Stack: React + Vite frontend, FastAPI backend. Existing frontend surfaces include a
+dashboard, translator, lessons, flashcards, and worksheets. The backend is honest about
+what's real: translation calls a real IndicTrans2 model when available, and speech
+endpoints intentionally return `501` until ASR/TTS checkpoints are configured. **Keep
+that honesty. Nothing you write in the UI should claim a capability that isn't actually
+wired up.**
+
+Right now the app works but doesn't look or feel like a finished product. Your job is a
+**design and UX pass**, not a rebuild — preserve every existing route, component
+contract, and API call. Improve how it looks, feels, and explains itself.
+
+## Step 0 — audit before you touch anything
+
+Before writing any code:
+1. List every existing page/route and component in `frontend/src`.
+2. Identify the current styling approach (plain CSS, CSS modules, Tailwind, styled-
+   components, etc.) and work **within** it — don't introduce a second styling system
+   unless the current one is genuinely unworkable for this task.
+3. Identify anywhere the frontend already touches the microphone (`getUserMedia`) or
+   sends user text/audio to the backend, and anywhere the backend actually stores or
+   forwards data. You need this to write honest copy later (see Task 7) — don't invent
+   data-handling claims, read the actual code.
+4. Confirm `npm run build` passes on the current `main` before you start, so you have a
+   clean baseline to diff against.
+
+## Design brief
+
+**Brand anchor:** the project is named after the Palash tree, Jharkhand's state flower —
+known as the "Flame of the Forest" for its vivid orange-red blooms, and central to tribal
+spring festivals (Sarhul, the Santhal Baha/flower festival). Use this as the actual root
+of the visual identity instead of a generic tech-startup blue. The result should read as
+warm, rooted, and human — not a corporate SaaS template, and not a gaudy "hackathon neon"
+palette either.
+
+### 1. Color palette
+
+Balance one confident warm accent against calm, light, low-saturation neutrals. Starting
+point (refine as needed, but keep this character — warm neutrals, one accent, WCAG AA
+contrast on all text/background pairs):
+
+```
+--flame-50:  #FDF3EC   /* tinted hover/highlight surfaces */
+--flame-100: #FBE1D0
+--flame-400: #F0824A
+--flame-500: #E2612B   /* primary brand accent — buttons, links, active states */
+--flame-600: #C14A1C   /* hover/pressed state */
+--flame-700: #973712   /* accent text on light fills */
+
+--forest-500: #3F7D4A  /* secondary accent — secondary actions, success, lesson/flashcard tags */
+--forest-600: #2E5735
+
+--cream-0:   #FAF7F2   /* page background — never pure white */
+--cream-50:  #FFFDF9   /* card/surface background */
+--warm-200:  #E7E1D6   /* borders, dividers */
+--warm-500:  #8A8375   /* secondary/muted text */
+--charcoal-900: #2B2620 /* primary text — never pure black */
+
+--danger-500: #C23B3B  /* errors — kept distinct from the flame accent so it still reads as "warning" */
+```
+
+Apply this as design tokens (CSS custom properties, or the Tailwind config if that's
+already in use) — not hardcoded hex values scattered across components.
+
+### 2. Typography
+
+Two fonts, used consistently everywhere:
+- A clean humanist sans-serif for UI chrome and body text (e.g. Inter, Manrope, or
+  similar). This is the "clean font" — legible at small sizes, works for a teacher
+  audience that may not be highly tech-literate.
+- A slightly warmer display face for the landing page hero and section headings, to
+  avoid a clinical/cold feel.
+
+Important and easy to miss: this app actually renders **Hindi (Devanagari) and Santali
+(Ol Chiki)** text, not just English chrome. Whatever font stack you set must fall back
+correctly for both scripts — include `Noto Sans Devanagari` and `Noto Sans Ol Chiki` (or
+verify the current font already covers Ol Chiki; most don't) in the stack so lesson and
+translation content doesn't fall back to a mismatched system font.
+
+### 3. Logo and brand consistency
+
+Design one SVG mark — a simplified, flat, gradient-free abstraction of a Palash bloom or
+flame (e.g. a small cluster of 2–3 curved petal/flame shapes in `--flame-500`/`--flame-
+600`) — paired with a wordmark. Build it as **one shared component** used everywhere
+(navbar, footer, favicon, loading state) rather than redrawn per page. It must stay
+legible down to favicon size (16–32px); if the illustrative mark doesn't hold up that
+small, fall back to a clean wordmark-only lockup with a small flame-colored accent shape.
+
+### 4. Layered look
+
+Give the app a consistent elevation system instead of flat pages:
+- 2–3 shadow tokens (subtle, soft, no harsh drop shadows).
+- Cards sit on `--cream-50` slightly "lifted" above a `--cream-0` page background.
+- One consistent border-radius scale and spacing scale used everywhere, not per
+  component guesswork.
+
+### 5. Hover and click animations
+
+- Hover: subtle lift or scale (~1.02×) and color shift, 150–200ms ease-out, on buttons,
+  cards, and nav items.
+- Click/press: quick scale-down (~0.97×) for tactile feedback.
+- Entrance: fade+slide on mount/scroll for sections and lists (stagger flashcard/lesson
+  grids slightly rather than animating all items at once).
+- Wrap all of it in `prefers-reduced-motion` checks.
+- Keep everything on `transform`/`opacity` only — this needs to stay smooth on the kind
+  of low-end Android tablets this project targets, not just on a dev laptop.
+
+### 6. Landing page
+
+Build a proper landing/home page (currently missing) that a teacher or evaluator can
+land on and immediately understand the product:
+- Hero: what this is (an AI translation and lesson tool that lets Hindi-speaking
+  teachers deliver mother-tongue instruction in Santali) and who it's for.
+- A short "how it works" section connecting to the real features: translator, lessons,
+  flashcards, worksheets — link these to the actual routes, don't invent new ones.
+- Acknowledge the PALASH programme / NIPUN Bharat FLN context in a sentence or two —
+  this grounds the product instead of reading as generic.
+- Clear CTA into the dashboard/app.
+- Must not claim live voice-to-voice translation is working if the backend still
+  returns `501` for it — phrase this as "coming" or omit it, don't overclaim.
+
+### 7. Footer transparency notice
+
+Add a persistent, easy-to-find footer (or a linked panel) that plainly states, **based
+on what you found in Step 0**, not assumptions:
+- What data the app sends/uses (e.g. "text you enter is sent to our translation model;
+  we don't store it beyond your session" — only if that's actually true of the current
+  backend).
+- If and only if the frontend actually requests microphone access somewhere: a plain-
+  language note on why (e.g. "used only while you're actively recording, never in the
+  background") — written to match what the code actually does today, including if mic
+  features aren't live yet ("voice input isn't enabled in this prototype yet").
+- A one-line note that this is a hackathon prototype, not an official government
+  product, so it isn't mistaken for one.
+
+## Non-negotiable constraints
+
+- Every existing route, prop, and API call keeps working. This is a visual/UX pass, not
+  a rewrite.
+- Fully responsive — teachers may use tablets, not just desktops.
+- Accessible: semantic HTML, visible focus states, alt text, keyboard navigation,
+  contrast ratios that pass WCAG AA against the new palette.
+- No copy anywhere overstates what's actually implemented (see backend `501`s above).
+- No secrets/API keys hardcoded into frontend code.
+
+## Build order
+
+1. Design tokens (palette, type scale, spacing, radius, shadow, motion durations).
+2. Shared components: `Logo`, `Navbar`, `Footer`, `Button`, `Card`, page shell/layout —
+   this is what makes the look consistent "throughout the site" instead of page-by-page.
+3. Typography setup, including Devanagari/Ol Chiki fallback stack.
+4. Landing page.
+5. Footer transparency content (after confirming real data/mic behavior).
+6. Re-pass every existing page (dashboard, translator, lessons, flashcards, worksheets)
+   to adopt the new tokens and shared components.
+7. QA: `npm run build`, a responsive check at mobile/tablet/desktop widths, a
+   `prefers-reduced-motion` check, and a contrast check on the new palette.
+
+## Acceptance checklist
+
+- [ ] One set of design tokens driving color/spacing/radius/shadow app-wide, no stray
+      hardcoded hex values in components.
+- [ ] One `Logo` component reused in navbar, footer, and favicon.
+- [ ] Every interactive element has a hover and a click state.
+- [ ] Landing page exists, explains the product accurately, and links to real routes.
+- [ ] Footer discloses data/mic usage accurately for the app's *current* behavior.
+- [ ] Hindi and Santali text render correctly, not as tofu/fallback boxes.
+- [ ] `npm run build` passes.
+- [ ] Reduced-motion users get a static (not broken) experience.
